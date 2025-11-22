@@ -611,6 +611,46 @@ function showSimplePage(view) {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
+function show99NamesPage() {
+  currentView = "99noms";
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  title.textContent = "Les 99 Noms d’Allah";
+  container.appendChild(title);
+
+  const list = document.createElement("div");
+  list.className = "names-list";
+
+  names99.forEach(n => {
+    const card = document.createElement("div");
+    card.className = "name-card";
+
+    const ar = document.createElement("div");
+    ar.className = "name-ar";
+    ar.textContent = n.name;
+
+    const tr = document.createElement("div");
+    tr.className = "name-translit";
+    tr.textContent = n.translit;
+
+    const me = document.createElement("div");
+    me.className = "name-meaning";
+    me.textContent = n.meaning;
+
+    card.appendChild(ar);
+    card.appendChild(tr);
+    card.appendChild(me);
+
+    list.appendChild(card);
+  });
+
+  container.appendChild(list);
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+}
 
 // ---- PWA service worker (désactivé pour éviter le vieux cache) ----
 /*

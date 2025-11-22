@@ -127,6 +127,7 @@ function showChapitre(chapitreId) {
 
   const container = document.createElement("div");
 
+  // --- Header avec bouton retour + titre du chapitre ---
   const header = document.createElement("div");
   header.className = "view-header";
 
@@ -138,37 +139,23 @@ function showChapitre(chapitreId) {
   const title = document.createElement("div");
   title.className = "view-title";
 
-  // Même libellé que sur la carte (Sommeil, Matin, etc.)
+  // Nom court du chapitre (Sommeil, Matin etc.)
   const headerLabel = chapitreLabels[chapitre.id] || chapitre.titre;
   title.textContent = headerLabel;
 
   header.appendChild(backBtn);
   header.appendChild(title);
 
+  // --- Liste directe de toutes les invocations du chapitre ---
   const list = document.createElement("div");
-  list.className = "subchapter-list";
+  list.className = "invocation-list";
 
   chapitre.sousChapitres.forEach(sc => {
-    const card = document.createElement("div");
-    card.className = "subchapter-card";
-    card.dataset.id = sc.id;
-
-    const t = document.createElement("div");
-    t.className = "subchapter-title";
-    t.textContent = sc.titre;
-
-    const count = document.createElement("div");
-    count.className = "subchapter-count";
-    count.textContent = `${sc.invocations.length} invocation(s)`;
-
-    card.appendChild(t);
-    card.appendChild(count);
-
-    card.addEventListener("click", () =>
-      showSousChapitre(chapitre.id, sc.id)
-    );
-
-    list.appendChild(card);
+    sc.invocations.forEach(inv => {
+      list.appendChild(
+        renderInvocationCard(inv, chapitre.titre, sc.titre)
+      );
+    });
   });
 
   container.appendChild(header);
@@ -177,6 +164,7 @@ function showChapitre(chapitreId) {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
+
 
 function showSousChapitre(chapitreId, sousChapitreId) {
   currentView = "sousChapitre";

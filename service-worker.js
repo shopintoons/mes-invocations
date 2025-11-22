@@ -1,33 +1,17 @@
-const CACHE_NAME = "invocations-cache-v1";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./data.js",
-  "./manifest.webmanifest"
-];
-
+// service-worker.js neutralisé
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", event => {
+  // On supprime tous les caches existants
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(k => k !== CACHE_NAME)
-          .map(k => caches.delete(k))
-      )
+      Promise.all(keys.map(key => caches.delete(key)))
     )
   );
 });
 
 self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
+  // On laisse le navigateur gérer normalement
 });

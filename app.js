@@ -625,17 +625,28 @@ if ("serviceWorker" in navigator) {
 
 // ---- Démarrage ----
 document.addEventListener("DOMContentLoaded", () => {
+  // Afficher la page d'accueil
   showHome();
 
-  // Cliquer sur la barre du haut remonte en haut de la page
+  // Cliquer sur la barre du haut remonte en haut
   const topBar = document.getElementById("topBar");
   if (topBar) {
     topBar.style.cursor = "pointer";
     topBar.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      // Si c'est le main qui scrolle, on remonte ce conteneur
+      const main = document.querySelector(".main-view");
+      if (main && typeof main.scrollTo === "function") {
+        main.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      } else {
+        // Sinon on remonte la fenêtre
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     });
   }
 });

@@ -630,3 +630,25 @@ if ("serviceWorker" in navigator) {
 document.addEventListener("DOMContentLoaded", () => {
   showHome();
 });
+// Remonter en haut quand on appuie sur la barre du haut
+const topBar = document.getElementById("topBar");
+
+if (topBar) {
+  topBar.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}
+// Remonter en haut quand on appuie sur la barre du haut
+const topBar = document.getElementById("topBar");
+
+if (topBar) {
+  topBar.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}

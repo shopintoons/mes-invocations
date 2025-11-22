@@ -587,14 +587,19 @@ function showPrayerPage() {
 
 // ---- Pages simples pour les autres onglets ----
 function showSimplePage(view) {
+  // Cas spécial : on a une vraie page pour la prière
+  if (view === "priere") {
+    showPrayerPage();
+    return;
+  }
+
   const container = document.createElement("div");
 
   const title = document.createElement("div");
   title.className = "view-title";
-  if (view === "coran") title.textContent = "Coran (à compléter)";
-  else if (view === "priere") title.textContent = "Prière (à compléter)";
-  else if (view === "99noms") title.textContent = "99 Noms (à compléter)";
+  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
   else if (view === "autre") title.textContent = "Autre (à compléter)";
+  else title.textContent = "(à compléter)";
   container.appendChild(title);
 
   const p = document.createElement("p");
@@ -607,6 +612,7 @@ function showSimplePage(view) {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
+
 
 // ---- PWA service worker (désactivé temporairement pour éviter le vieux cache) ----
 /*

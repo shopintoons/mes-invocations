@@ -42,11 +42,14 @@ bottomNavButtons.forEach(btn => {
     btn.classList.add("active");
 
     const view = btn.getAttribute("data-view");
-    if (view === "invocations") {
-      showHome();
-    } else {
-      showSimplePage(view);
-    }
+if (view === "invocations") {
+  showHome();
+} else if (view === "coran") {
+  showQuranHome();
+} else {
+  showSimplePage(view);
+}
+
   });
 });
 

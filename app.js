@@ -586,19 +586,30 @@ async function showSurah(surahId) {
 
 // ---- Pages simples pour les autres onglets ----
 function showSimplePage(view) {
-  // Cas spécial : page Prière = horaires
+  // Cas spécial : onglet Prière → horaires
   if (view === "priere") {
     showPrayerPage();
     return;
   }
 
+  // Cas spécial : onglet 99 Noms → liste des 99 noms
+  if (view === "99noms") {
+    show99NamesPage();
+    return;
+  }
+
+  // Cas spécial : onglet Autre → À propos / Mentions légales
+  if (view === "autre") {
+    showAboutPage();
+    return;
+  }
+
+  // Par défaut (si un autre onglet est ajouté plus tard)
   const container = document.createElement("div");
 
   const title = document.createElement("div");
   title.className = "view-title";
-  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
-  else if (view === "autre") title.textContent = "Autre (à compléter)";
-  else title.textContent = "(à compléter)";
+  title.textContent = "(à compléter)";
   container.appendChild(title);
 
   const p = document.createElement("p");
@@ -611,6 +622,7 @@ function showSimplePage(view) {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
+
 function show99NamesPage() {
   currentView = "99noms";
 

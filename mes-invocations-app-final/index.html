@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes Invocations</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#008060" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Barre du haut -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <span class="top-bar-time">07:28</span>
+      </div>
+      <div class="top-bar-title">Mes Invocations</div>
+      <div class="top-bar-right">
+        <button id="favoriteBtn" class="icon-btn" title="Favoris">❤</button>
+        <button id="searchToggleBtn" class="icon-btn" title="Recherche">🔍</button>
+      </div>
+    </header>
+
+    <!-- Barre de recherche -->
+    <div id="searchBar" class="search-bar hidden">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Rechercher une invocation (ex: prière, matin...)"
+        autocomplete="off"
+      />
+      <button id="searchClearBtn" class="clear-btn">✕</button>
+    </div>
+
+    <!-- Contenu principal -->
+    <main id="mainView" class="main-view">
+      <!-- Le JS va injecter les écrans ici -->
+    </main>
+
+    <!-- Navigation du bas -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-view="invocations">Mes Invocations</button>
+      <button class="nav-item" data-view="coran">Coran</button>
+      <button class="nav-item" data-view="priere">Prière</button>
+      <button class="nav-item" data-view="99noms">99 Noms</button>
+      <button class="nav-item" data-view="autre">Autre</button>
+    </nav>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

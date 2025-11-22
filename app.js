@@ -109,8 +109,16 @@ function showChapitre(chapitreId) {
   backBtn.addEventListener("click", showHome);
 
   const title = document.createElement("div");
-  title.className = "view-title";
-  title.textContent = chapitre.titre;
+title.className = "chapter-card-title";
+
+// On enlève "Chapitre X :" pour n’afficher que le vrai nom
+let label = chap.titre;
+if (label.includes(":")) {
+  label = label.split(":").slice(1).join(":").trim();
+}
+
+title.textContent = label;
+
 
   header.appendChild(backBtn);
   header.appendChild(title);

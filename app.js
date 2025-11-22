@@ -1,6 +1,6 @@
 // app.js
 
-let currentView = "home"; // home | chapitre | sousChapitre | search
+let currentView = "home"; // home | chapitre | sousChapitre | search | coran | priere
 let currentChapitreId = null;
 let currentSousChapitreId = null;
 
@@ -8,25 +8,25 @@ const mainView = document.getElementById("mainView");
 
 // Libellés courts pour les chapitres
 const chapitreLabels = {
-  "chapitre_1": "Sommeil",
-  "chapitre_2": "Matin et soir",
-  "chapitre_3": "purifications",
-  "chapitre_4": "prière",
-  "chapitre_5": "jeûne",
-  "chapitre_6": "pèlerinage",
-  "chapitre_7": "évènements naturels",
-  "chapitre_8": "salut",
-  "chapitre_9": "l’argent",
-  "chapitre_10": "invocations adressées aux gens",
-  "chapitre_11": "invocations liées aux évènements heureux ou malheureux",
-  "chapitre_12": "invocations protectrices",
-  "chapitre_13": "invocations liées à la nourriture et la boisson",
-  "chapitre_14": "invocations liées au mariage et aux enfants",
-  "chapitre_15": "invocations liées aux états d’âme",
-  "chapitre_16": "invocations liées à la maladie",
-  "chapitre_17": "invocations liées à la mort",
-  "chapitre_18": "invocations liées aux lieux",
-  "chapitre_19": "invocations liées aux sorties et voyages"
+  chapitre_1: "Sommeil",
+  chapitre_2: "Matin",
+  chapitre_3: "Soir",
+  chapitre_4: "Maison",
+  chapitre_5: "Toilettes",
+  chapitre_6: "Nourriture",
+  chapitre_7: "Mosquée",
+  chapitre_8: "Voyage",
+  chapitre_9: "Habits",
+  chapitre_10: "Mariage",
+  chapitre_11: "Pluie",
+  chapitre_12: "Invocations protectrices",
+  chapitre_13: "Funérailles",
+  chapitre_14: "Maladie",
+  chapitre_15: "Enfants",
+  chapitre_16: "Parents",
+  chapitre_17: "Ramadan",
+  chapitre_18: "Animaux",
+  chapitre_19: "Divers"
 };
 
 const searchBar = document.getElementById("searchBar");
@@ -42,14 +42,13 @@ bottomNavButtons.forEach(btn => {
     btn.classList.add("active");
 
     const view = btn.getAttribute("data-view");
-if (view === "invocations") {
-  showHome();
-} else if (view === "coran") {
-  showQuranHome();
-} else {
-  showSimplePage(view);
-}
-
+    if (view === "invocations") {
+      showHome();
+    } else if (view === "coran") {
+      showQuranHome();
+    } else {
+      showSimplePage(view);
+    }
   });
 });
 
@@ -106,8 +105,6 @@ function showHome() {
 
     const title = document.createElement("div");
     title.className = "chapter-card-title";
-
-    // Utilise le libellé court si défini, sinon le titre complet
     const label = chapitreLabels[chap.id] || chap.titre;
     title.textContent = label;
 
@@ -122,6 +119,7 @@ function showHome() {
   mainView.appendChild(grid);
 }
 
+// Affichage direct de toutes les invocations d’un chapitre
 function showChapitre(chapitreId) {
   currentView = "chapitre";
   currentChapitreId = chapitreId;
@@ -130,7 +128,6 @@ function showChapitre(chapitreId) {
 
   const container = document.createElement("div");
 
-  // --- Header avec bouton retour + titre du chapitre ---
   const header = document.createElement("div");
   header.className = "view-header";
 
@@ -141,15 +138,12 @@ function showChapitre(chapitreId) {
 
   const title = document.createElement("div");
   title.className = "view-title";
-
-  // Nom court du chapitre (Sommeil, Matin etc.)
   const headerLabel = chapitreLabels[chapitre.id] || chapitre.titre;
   title.textContent = headerLabel;
 
   header.appendChild(backBtn);
   header.appendChild(title);
 
-  // --- Liste directe de toutes les invocations du chapitre ---
   const list = document.createElement("div");
   list.className = "invocation-list";
 
@@ -168,7 +162,7 @@ function showChapitre(chapitreId) {
   mainView.appendChild(container);
 }
 
-
+// (Gardé au cas où on veuille réutiliser la vue par sous-chapitre)
 function showSousChapitre(chapitreId, sousChapitreId) {
   currentView = "sousChapitre";
   currentChapitreId = chapitreId;
@@ -305,156 +299,16 @@ function showSearchResults(keyword, results) {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
-// ---- Affichage du Coran ----
 
-// Page : liste des 114 sourates
-async function showQuranHome() {
-  currentView = "coran";
-
-  const container = document.createElement("div");
-
-  const title = document.createElement("div");
-  title.className = "view-title";
-  title.textContent = "Coran";
-  container.appendChild(title);
-
-  const list = document.createElement("div");
-  list.className = "subchapter-list";
-
-  const loading = document.createElement("div");
-  loading.className = "search-info";
-  loading.textContent = "Chargement des sourates...";
-  list.appendChild(loading);
-
-  container.appendChild(list);
-
-  mainView.innerHTML = "";
-  mainView.appendChild(container);
-
-  try {
-    const chapters = await getQuranChapters();
-
-    list.innerHTML = ""; // on enlève le texte “chargement...”
-
-    chapters.forEach(ch => {
-      const card = document.createElement("div");
-      card.className = "subchapter-card";
-      card.dataset.id = ch.id;
-
-      const t = document.createElement("div");
-      t.className = "subchapter-title";
-      t.textContent = `${ch.id}. ${ch.name} (${ch.translation})`;
-
-      const count = document.createElement("div");
-      count.className = "subchapter-count";
-      count.textContent = `${ch.total_verses} verset(s)`;
-
-      card.appendChild(t);
-      card.appendChild(count);
-
-      card.addEventListener("click", () => showSurah(ch.id));
-
-      list.appendChild(card);
-    });
-  } catch (e) {
-    console.error(e);
-    list.innerHTML = "";
-    const err = document.createElement("div");
-    err.className = "search-info";
-    err.textContent =
-      "Erreur lors du chargement du Coran. Vérifie ta connexion internet.";
-    list.appendChild(err);
-  }
-}
-
-// Page : une sourate complète
-async function showSurah(surahId) {
-  currentView = "coran-sourate";
-
-  const container = document.createElement("div");
-
-  const header = document.createElement("div");
-  header.className = "view-header";
-
-  const backBtn = document.createElement("button");
-  backBtn.className = "back-btn";
-  backBtn.textContent = "←";
-  backBtn.addEventListener("click", showQuranHome);
-
-  const title = document.createElement("div");
-  title.className = "view-title";
-  title.textContent = "Sourate " + surahId;
-
-  header.appendChild(backBtn);
-  header.appendChild(title);
-
-  const list = document.createElement("div");
-  list.className = "invocation-list";
-
-  const loading = document.createElement("div");
-  loading.className = "search-info";
-  loading.textContent = "Chargement de la sourate...";
-  list.appendChild(loading);
-
-  container.appendChild(header);
-  container.appendChild(list);
-
-  mainView.innerHTML = "";
-  mainView.appendChild(container);
-
-  try {
-    const surah = await getSurahById(surahId);
-    if (!surah) {
-      list.innerHTML = "";
-      const err = document.createElement("div");
-      err.className = "search-info";
-      err.textContent = "Sourate introuvable.";
-      list.appendChild(err);
-      return;
-    }
-
-    // Met à jour le titre avec le nom de la sourate
-    title.textContent = `${surah.id}. ${surah.name} (${surah.translation})`;
-
-    list.innerHTML = "";
-
-    surah.verses.forEach(v => {
-      const card = document.createElement("div");
-      card.className = "invocation-card";
-
-      const num = document.createElement("div");
-      num.className = "invocation-meta";
-      num.textContent = `Verset ${v.id}`;
-
-      const arabic = document.createElement("div");
-      arabic.className = "invocation-arabic";
-      arabic.textContent = v.text;
-
-      const translation = document.createElement("div");
-      translation.className = "invocation-translation";
-      translation.textContent = v.translation;
-
-      card.appendChild(num);
-      card.appendChild(arabic);
-      card.appendChild(translation);
-
-      list.appendChild(card);
-    });
-  } catch (e) {
-    console.error(e);
-    list.innerHTML = "";
-    const err = document.createElement("div");
-    err.className = "search-info";
-    err.textContent =
-      "Erreur lors du chargement de la sourate. Vérifie ta connexion internet.";
-    list.appendChild(err);
-  }
-}// ---- Horaires de prière ----
+// ---- Horaires de prière ----
 
 const PRAYER_API_BASE = "https://api.aladhan.com/v1/timingsByCity";
 
 // Appel API pour une ville
-async function fetchPrayerTimes(city = "Bourg-en-Bresse", country = "France") {
+async function fetchPrayerTimes(
+  city = "Bourg-en-Bresse",
+  country = "France"
+) {
   const url =
     `${PRAYER_API_BASE}?city=${encodeURIComponent(city)}` +
     `&country=${encodeURIComponent(country)}&method=12`;
@@ -499,7 +353,6 @@ function showPrayerPage() {
   input.style.borderRadius = "4px";
   input.style.border = "1px solid #ccc";
 
-  // Ville sauvegardée (sinon Bourg-en-Bresse)
   const savedCity =
     localStorage.getItem("prayerCity") || "Bourg-en-Bresse";
   input.value = savedCity;
@@ -520,7 +373,6 @@ function showPrayerPage() {
 
   container.appendChild(form);
 
-  // ---- Zone d'affichage ----
   const info = document.createElement("div");
   info.className = "search-info";
   info.textContent = "Chargement des horaires...";
@@ -577,15 +429,159 @@ function showPrayerPage() {
     }
   }
 
-  // Charger au démarrage avec la ville sauvegardée
+  // Charger au démarrage
   load(savedCity);
 
-  // Quand on clique sur "Mettre à jour"
   btn.addEventListener("click", () => {
     const cityName = input.value.trim() || "Bourg-en-Bresse";
     localStorage.setItem("prayerCity", cityName);
     load(cityName);
   });
+}
+
+// ---- Affichage du Coran ----
+
+// Liste de toutes les sourates (données fournies par quran.js)
+async function showQuranHome() {
+  currentView = "coran";
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  title.textContent = "Coran";
+  container.appendChild(title);
+
+  const list = document.createElement("div");
+  list.className = "subchapter-list";
+
+  const loading = document.createElement("div");
+  loading.className = "search-info";
+  loading.textContent = "Chargement des sourates...";
+  list.appendChild(loading);
+
+  container.appendChild(list);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+
+  try {
+    const chapters = await getQuranChapters();
+
+    list.innerHTML = "";
+
+    chapters.forEach(ch => {
+      const card = document.createElement("div");
+      card.className = "subchapter-card";
+      card.dataset.id = ch.id;
+
+      const t = document.createElement("div");
+      t.className = "subchapter-title";
+      t.textContent = `${ch.id}. ${ch.name} (${ch.translation})`;
+
+      const count = document.createElement("div");
+      count.className = "subchapter-count";
+      count.textContent = `${ch.total_verses} verset(s)`;
+
+      card.appendChild(t);
+      card.appendChild(count);
+
+      card.addEventListener("click", () => showSurah(ch.id));
+
+      list.appendChild(card);
+    });
+  } catch (e) {
+    console.error(e);
+    list.innerHTML = "";
+    const err = document.createElement("div");
+    err.className = "search-info";
+    err.textContent =
+      "Erreur lors du chargement du Coran. Vérifie ta connexion internet.";
+    list.appendChild(err);
+  }
+}
+
+// Affichage d’une sourate complète
+async function showSurah(surahId) {
+  currentView = "coran-sourate";
+
+  const container = document.createElement("div");
+
+  const header = document.createElement("div");
+  header.className = "view-header";
+
+  const backBtn = document.createElement("button");
+  backBtn.className = "back-btn";
+  backBtn.textContent = "←";
+  backBtn.addEventListener("click", showQuranHome);
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  title.textContent = "Sourate " + surahId;
+
+  header.appendChild(backBtn);
+  header.appendChild(title);
+
+  const list = document.createElement("div");
+  list.className = "invocation-list";
+
+  const loading = document.createElement("div");
+  loading.className = "search-info";
+  loading.textContent = "Chargement de la sourate...";
+  list.appendChild(loading);
+
+  container.appendChild(header);
+  container.appendChild(list);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+
+  try {
+    const surah = await getSurahById(surahId);
+    if (!surah) {
+      list.innerHTML = "";
+      const err = document.createElement("div");
+      err.className = "search-info";
+      err.textContent = "Sourate introuvable.";
+      list.appendChild(err);
+      return;
+    }
+
+    title.textContent = `${surah.id}. ${surah.name} (${surah.translation})`;
+
+    list.innerHTML = "";
+
+    surah.verses.forEach(v => {
+      const card = document.createElement("div");
+      card.className = "invocation-card";
+
+      const num = document.createElement("div");
+      num.className = "invocation-meta";
+      num.textContent = `Verset ${v.id}`;
+
+      const arabic = document.createElement("div");
+      arabic.className = "invocation-arabic";
+      arabic.textContent = v.text;
+
+      const translation = document.createElement("div");
+      translation.className = "invocation-translation";
+      translation.textContent = v.translation;
+
+      card.appendChild(num);
+      card.appendChild(arabic);
+      card.appendChild(translation);
+
+      list.appendChild(card);
+    });
+  } catch (e) {
+    console.error(e);
+    list.innerHTML = "";
+    const err = document.createElement("div");
+    err.className = "search-info";
+    err.textContent =
+      "Erreur lors du chargement de la sourate. Vérifie ta connexion internet.";
+    list.appendChild(err);
+  }
 }
 
 // ---- Pages simples pour les autres onglets ----
@@ -616,55 +612,7 @@ function showSimplePage(view) {
   mainView.appendChild(container);
 }
 
-
-  const container = document.createElement("div");
-
-  const title = document.createElement("div");
-  title.className = "view-title";
-  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
-  else if (view === "autre") title.textContent = "Autre (à compléter)";
-  else title.textContent = "(à compléter)";
-  container.appendChild(title);
-
-  const p = document.createElement("p");
-  p.style.fontSize = "13px";
-  p.style.marginTop = "8px";
-  p.textContent =
-    "On ajoutera ici plus tard le contenu correspondant.";
-  container.appendChild(p);
-
-  mainView.innerHTML = "";
-  mainView.appendChild(container);
-}
-
-  // Cas spécial : on a une vraie page pour la prière
-  if (view === "priere") {
-    showPrayerPage();
-    return;
-  }
-
-  const container = document.createElement("div");
-
-  const title = document.createElement("div");
-  title.className = "view-title";
-  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
-  else if (view === "autre") title.textContent = "Autre (à compléter)";
-  else title.textContent = "(à compléter)";
-  container.appendChild(title);
-
-  const p = document.createElement("p");
-  p.style.fontSize = "13px";
-  p.style.marginTop = "8px";
-  p.textContent =
-    "On ajoutera ici plus tard le contenu correspondant.";
-  container.appendChild(p);
-
-  mainView.innerHTML = "";
-  mainView.appendChild(container);
-}
-
-
-// ---- PWA service worker (désactivé temporairement pour éviter le vieux cache) ----
+// ---- PWA service worker (désactivé pour éviter le vieux cache) ----
 /*
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -674,7 +622,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 */
-
 
 // ---- Démarrage ----
 document.addEventListener("DOMContentLoaded", () => {
@@ -692,23 +639,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
-if (topBar) {
-  topBar.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-}
-// Remonter en haut quand on appuie sur la barre du haut
-const topBar = document.getElementById("topBar");
-
-if (topBar) {
-  topBar.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-}

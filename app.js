@@ -9,24 +9,24 @@ const mainView = document.getElementById("mainView");
 // Libellés courts pour les chapitres
 const chapitreLabels = {
   "chapitre_1": "Sommeil",
-  "chapitre_2": "Matin",
-  "chapitre_3": "Soir",
-  "chapitre_4": "Maison",
-  "chapitre_5": "Toilettes",
-  "chapitre_6": "Nourriture",
-  "chapitre_7": "Mosquée",
-  "chapitre_8": "Voyage",
-  "chapitre_9": "Habits",
-  "chapitre_10": "Mariage",
-  "chapitre_11": "Pluie",
-  "chapitre_12": "Invocations protectrices",
-  "chapitre_13": "Funérailles",
-  "chapitre_14": "Maladie",
-  "chapitre_15": "Enfants",
-  "chapitre_16": "Parents",
-  "chapitre_17": "Ramadan",
-  "chapitre_18": "Animaux",
-  "chapitre_19": "Divers"
+  "chapitre_2": "Matin et soir",
+  "chapitre_3": "purifications",
+  "chapitre_4": "prière",
+  "chapitre_5": "jeûne",
+  "chapitre_6": "pèlerinage",
+  "chapitre_7": "évènements naturels",
+  "chapitre_8": "salut",
+  "chapitre_9": "l’argent",
+  "chapitre_10": "invocations adressées aux gens",
+  "chapitre_11": "invocations liées aux évènements heureux ou malheureux",
+  "chapitre_12": "invocations protectrices",
+  "chapitre_13": "invocations liées à la nourriture et la boisson",
+  "chapitre_14": "invocations liées au mariage et aux enfants",
+  "chapitre_15": "invocations liées aux états d’âme",
+  "chapitre_16": "invocations liées à la maladie",
+  "chapitre_17": "invocations liées à la mort",
+  "chapitre_18": "invocations liées aux lieux",
+  "chapitre_19": "invocations liées aux sorties et voyages"
 };
 
 const searchBar = document.getElementById("searchBar");

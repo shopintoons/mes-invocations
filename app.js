@@ -474,7 +474,8 @@ function showSimplePage(view) {
   mainView.appendChild(container);
 }
 
-// ---- PWA service worker ----
+// ---- PWA service worker (désactivé temporairement pour éviter le vieux cache) ----
+/*
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -482,6 +483,8 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.error("SW registration failed", err));
   });
 }
+*/
+
 
 // ---- Démarrage ----
 document.addEventListener("DOMContentLoaded", () => {

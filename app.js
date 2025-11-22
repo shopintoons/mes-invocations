@@ -629,9 +629,19 @@ if ("serviceWorker" in navigator) {
 // ---- Démarrage ----
 document.addEventListener("DOMContentLoaded", () => {
   showHome();
+
+  // Cliquer sur la barre du haut remonte en haut de la page
+  const topBar = document.getElementById("topBar");
+  if (topBar) {
+    topBar.style.cursor = "pointer";
+    topBar.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  }
 });
-// Remonter en haut quand on appuie sur la barre du haut
-const topBar = document.getElementById("topBar");
 
 if (topBar) {
   topBar.addEventListener("click", () => {

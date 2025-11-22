@@ -8,25 +8,25 @@ const mainView = document.getElementById("mainView");
 
 // Libellés courts pour les chapitres
 const chapitreLabels = {
-  chapitre_1: "Sommeil",
-  chapitre_2: "Matin",
-  chapitre_3: "Soir",
-  chapitre_4: "Maison",
-  chapitre_5: "Toilettes",
-  chapitre_6: "Nourriture",
-  chapitre_7: "Mosquée",
-  chapitre_8: "Voyage",
-  chapitre_9: "Habits",
-  chapitre_10: "Mariage",
-  chapitre_11: "Pluie",
+  chapitre_1: "invocations du sommeil",
+  chapitre_2: "invocations du soir et du matin",
+  chapitre_3: "invocations de la purifications",
+  chapitre_4: "invocations de la prière",
+  chapitre_5: "invocations du jeûne",
+  chapitre_6: "invocations du pèlerinage",
+  chapitre_7: "invocations liées aux évènements naturels",
+  chapitre_8: "invocations liées aux salut",
+  chapitre_9: "invocations biens matériels et à l’argent",
+  chapitre_10: "invocations adressées aux gens",
+  chapitre_11: "invocations évènements heureux ou malheureux",
   chapitre_12: "Invocations protectrices",
-  chapitre_13: "Funérailles",
-  chapitre_14: "Maladie",
-  chapitre_15: "Enfants",
-  chapitre_16: "Parents",
-  chapitre_17: "Ramadan",
-  chapitre_18: "Animaux",
-  chapitre_19: "Divers"
+  chapitre_13: "invocations nourriture et la boisson",
+  chapitre_14: "invocations enfants",
+  chapitre_15: "invocations âme",
+  chapitre_16: "invocations maladie",
+  chapitre_17: "invocations mort",
+  chapitre_18: "invocations lieux",
+  chapitre_19: "invocations voyages"
 };
 
 const searchBar = document.getElementById("searchBar");

@@ -450,6 +450,140 @@ async function showSurah(surahId) {
     list.appendChild(err);
   }
 }
+// ---- Horaires de prière ----
+
+const PRAYER_API_BASE = "https://api.aladhan.com/v1/timingsByCity";
+
+async function fetchPrayerTimes(city = "Lyon", country = "France") {
+  const url =
+    `${PRAYER_API_BASE}?city=${encodeURIComponent(city)}` +
+    `&country=${encodeURIComponent(country)}&method=12`;
+
+  const resp = await fetch(url);
+  if (!resp.ok) {
+    throw new Error("Erreur API horaires de prière");
+  }
+  const data = await resp.json();
+  if (data.code !== 200) {
+    throw new Error("Réponse invalide API");
+  }
+  return data.data; // contient date + timings
+}
+
+function showPrayerPage() {
+  currentView = "priere";
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  title.textContent = "Horaires de prière";
+  container.appendChild(title);
+
+  // ---- Formulaire ville ----
+  const form = document.createElement("div");
+  form.style.marginTop = "8px";
+  form.style.marginBottom = "12px";
+  form.style.fontSize = "13px";
+
+  const label = document.createElement("label");
+  label.textContent = "Ville : ";
+  label.setAttribute("for", "prayerCityInput");
+
+  const input = document.createElement("input");
+  input.id = "prayerCityInput";
+  input.type = "text";
+  input.placeholder = "Ex : Lyon, Paris...";
+  input.style.padding = "4px 6px";
+  input.style.borderRadius = "4px";
+  input.style.border = "1px solid #ccc";
+
+  const savedCity = localStorage.getItem("prayerCity") || "Lyon";
+  input.value = savedCity;
+
+  const btn = document.createElement("button");
+  btn.textContent = "Mettre à jour";
+  btn.style.marginLeft = "8px";
+  btn.style.padding = "4px 8px";
+  btn.style.border = "none";
+  btn.style.borderRadius = "4px";
+  btn.style.backgroundColor = "#00897b";
+  btn.style.color = "#fff";
+  btn.style.fontSize = "12px";
+
+  form.appendChild(label);
+  form.appendChild(input);
+  form.appendChild(btn);
+
+  container.appendChild(form);
+
+  // ---- Zone d'affichage des horaires ----
+  const info = document.createElement("div");
+  info.className = "search-info";
+  info.textContent = "Chargement des horaires...";
+  container.appendChild(info);
+
+  const list = document.createElement("div");
+  list.className = "invocation-list";
+  container.appendChild(list);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+
+  async function load(cityName) {
+    info.textContent = "Chargement des horaires...";
+    list.innerHTML = "";
+
+    try {
+      const data = await fetchPrayerTimes(cityName, "France");
+      const t = data.timings;
+      const dateText = data.date.readable;
+
+      info.textContent = `${cityName} – ${dateText}`;
+
+      const rows = [
+        ["Fajr", t.Fajr],
+        ["Chourouq", t.Sunrise],
+        ["Dhuhr", t.Dhuhr],
+        ["Asr", t.Asr],
+        ["Maghrib", t.Maghrib],
+        ["Isha", t.Isha]
+      ];
+
+      rows.forEach(([label, time]) => {
+        const card = document.createElement("div");
+        card.className = "invocation-card";
+
+        const nameEl = document.createElement("div");
+        nameEl.className = "invocation-title";
+        nameEl.textContent = label;
+
+        const timeEl = document.createElement("div");
+        timeEl.className = "invocation-meta";
+        timeEl.textContent = time;
+
+        card.appendChild(nameEl);
+        card.appendChild(timeEl);
+        list.appendChild(card);
+      });
+    } catch (e) {
+      console.error(e);
+      info.textContent =
+        "Erreur lors du chargement des horaires. Vérifie ta connexion internet.";
+      list.innerHTML = "";
+    }
+  }
+
+  // Charger les horaires au démarrage
+  load(savedCity);
+
+  // Quand on clique sur "Mettre à jour"
+  btn.addEventListener("click", () => {
+    const cityName = input.value.trim() || "Lyon";
+    localStorage.setItem("prayerCity", cityName);
+    load(cityName);
+  });
+}
 
 // ---- Pages simples pour les autres onglets ----
 function showSimplePage(view) {

@@ -454,7 +454,8 @@ async function showSurah(surahId) {
 
 const PRAYER_API_BASE = "https://api.aladhan.com/v1/timingsByCity";
 
-async function fetchPrayerTimes(city = "Lyon", country = "France") {
+// Appel API pour une ville
+async function fetchPrayerTimes(city = "Bourg-en-Bresse", country = "France") {
   const url =
     `${PRAYER_API_BASE}?city=${encodeURIComponent(city)}` +
     `&country=${encodeURIComponent(country)}&method=12`;
@@ -464,12 +465,13 @@ async function fetchPrayerTimes(city = "Lyon", country = "France") {
     throw new Error("Erreur API horaires de prière");
   }
   const data = await resp.json();
-  if (data.code !== 200) {
+  if (data.code !== 200 || !data.data) {
     throw new Error("Réponse invalide API");
   }
-  return data.data; // contient date + timings
+  return data.data; // contient { date, timings }
 }
 
+// Affichage de la page "Prière"
 function showPrayerPage() {
   currentView = "priere";
 
@@ -493,12 +495,14 @@ function showPrayerPage() {
   const input = document.createElement("input");
   input.id = "prayerCityInput";
   input.type = "text";
-  input.placeholder = "Ex : Lyon, Paris...";
+  input.placeholder = "Ex : Bourg-en-Bresse";
   input.style.padding = "4px 6px";
   input.style.borderRadius = "4px";
   input.style.border = "1px solid #ccc";
 
-  const savedCity = localStorage.getItem("prayerCity") || "Lyon";
+  // Ville sauvegardée (sinon Bourg-en-Bresse)
+  const savedCity =
+    localStorage.getItem("prayerCity") || "Bourg-en-Bresse";
   input.value = savedCity;
 
   const btn = document.createElement("button");
@@ -517,7 +521,7 @@ function showPrayerPage() {
 
   container.appendChild(form);
 
-  // ---- Zone d'affichage des horaires ----
+  // ---- Zone d'affichage ----
   const info = document.createElement("div");
   info.className = "search-info";
   info.textContent = "Chargement des horaires...";
@@ -574,12 +578,12 @@ function showPrayerPage() {
     }
   }
 
-  // Charger les horaires au démarrage
+  // Charger au démarrage avec la ville sauvegardée
   load(savedCity);
 
   // Quand on clique sur "Mettre à jour"
   btn.addEventListener("click", () => {
-    const cityName = input.value.trim() || "Lyon";
+    const cityName = input.value.trim() || "Bourg-en-Bresse";
     localStorage.setItem("prayerCity", cityName);
     load(cityName);
   });
@@ -587,6 +591,32 @@ function showPrayerPage() {
 
 // ---- Pages simples pour les autres onglets ----
 function showSimplePage(view) {
+  // Cas spécial : page Prière = horaires
+  if (view === "priere") {
+    showPrayerPage();
+    return;
+  }
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
+  else if (view === "autre") title.textContent = "Autre (à compléter)";
+  else title.textContent = "(à compléter)";
+  container.appendChild(title);
+
+  const p = document.createElement("p");
+  p.style.fontSize = "13px";
+  p.style.marginTop = "8px";
+  p.textContent =
+    "On ajoutera ici plus tard le contenu correspondant.";
+  container.appendChild(p);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+}
+
   // Cas spécial : on a une vraie page pour la prière
   if (view === "priere") {
     showPrayerPage();

@@ -1,0 +1,253 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+}
+
+/* Conteneur global */
+.app {
+  max-width: 420px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Top bar */
+.top-bar {
+  height: 56px;
+  background: #008060; /* vert style islam */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.top-bar-left,
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  width: 70px;
+}
+
+.top-bar-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.top-bar-time {
+  font-size: 13px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+/* Barre de recherche */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: #e0f2f1;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.clear-btn {
+  margin-left: 6px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Contenu principal */
+.main-view {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Grille de chapitres */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 8px;
+}
+
+.chapter-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chapter-card img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 6px;
+}
+
+.chapter-card-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Retour + titre */
+.view-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.view-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Liste des sous-chapitres */
+.subchapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subchapter-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.subchapter-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.subchapter-count {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Carte d'invocation */
+.invocation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invocation-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.invocation-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.invocation-arabic {
+  font-size: 18px;
+  direction: rtl;
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.invocation-translit {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.invocation-translation {
+  font-size: 13px;
+  margin-bottom: 4px;
+  white-space: pre-wrap;
+}
+
+.invocation-meta {
+  font-size: 11px;
+  color: #777;
+}
+
+/* Résultats de recherche */
+.search-info {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  height: 54px;
+  background: #005b43;
+  display: flex;
+ 	align-items: stretch;
+}
+
+.nav-item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #c8e6c9;
+  font-size: 11px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  background: #008060;
+  color: #fff;
+  font-weight: 600;
+}

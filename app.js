@@ -449,8 +449,7 @@ async function showSurah(surahId) {
       "Erreur lors du chargement de la sourate. Vérifie ta connexion internet.";
     list.appendChild(err);
   }
-}
-// ---- Horaires de prière ----
+}// ---- Horaires de prière ----
 
 const PRAYER_API_BASE = "https://api.aladhan.com/v1/timingsByCity";
 
@@ -596,6 +595,27 @@ function showSimplePage(view) {
     showPrayerPage();
     return;
   }
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  if (view === "99noms") title.textContent = "99 Noms (à compléter)";
+  else if (view === "autre") title.textContent = "Autre (à compléter)";
+  else title.textContent = "(à compléter)";
+  container.appendChild(title);
+
+  const p = document.createElement("p");
+  p.style.fontSize = "13px";
+  p.style.marginTop = "8px";
+  p.textContent =
+    "On ajoutera ici plus tard le contenu correspondant.";
+  container.appendChild(p);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+}
+
 
   const container = document.createElement("div");
 

@@ -5,6 +5,30 @@ let currentChapitreId = null;
 let currentSousChapitreId = null;
 
 const mainView = document.getElementById("mainView");
+
+// Libellés courts pour les chapitres
+const chapitreLabels = {
+  "chapitre_1": "Sommeil",
+  "chapitre_2": "Matin",
+  "chapitre_3": "Soir",
+  "chapitre_4": "Maison",
+  "chapitre_5": "Toilettes",
+  "chapitre_6": "Nourriture",
+  "chapitre_7": "Mosquée",
+  "chapitre_8": "Voyage",
+  "chapitre_9": "Habits",
+  "chapitre_10": "Mariage",
+  "chapitre_11": "Pluie",
+  "chapitre_12": "Invocations protectrices",
+  "chapitre_13": "Funérailles",
+  "chapitre_14": "Maladie",
+  "chapitre_15": "Enfants",
+  "chapitre_16": "Parents",
+  "chapitre_17": "Ramadan",
+  "chapitre_18": "Animaux",
+  "chapitre_19": "Divers"
+};
+
 const searchBar = document.getElementById("searchBar");
 const searchToggleBtn = document.getElementById("searchToggleBtn");
 const searchInput = document.getElementById("searchInput");
@@ -79,7 +103,10 @@ function showHome() {
 
     const title = document.createElement("div");
     title.className = "chapter-card-title";
-    title.textContent = chap.titre;
+
+    // Utilise le libellé court si défini, sinon le titre complet
+    const label = chapitreLabels[chap.id] || chap.titre;
+    title.textContent = label;
 
     card.appendChild(img);
     card.appendChild(title);
@@ -109,16 +136,11 @@ function showChapitre(chapitreId) {
   backBtn.addEventListener("click", showHome);
 
   const title = document.createElement("div");
-title.className = "chapter-card-title";
+  title.className = "view-title";
 
-// On enlève "Chapitre X :" pour n’afficher que le vrai nom
-let label = chap.titre;
-if (label.includes(":")) {
-  label = label.split(":").slice(1).join(":").trim();
-}
-
-title.textContent = label;
-
+  // Même libellé que sur la carte (Sommeil, Matin, etc.)
+  const headerLabel = chapitreLabels[chapitre.id] || chapitre.titre;
+  title.textContent = headerLabel;
 
   header.appendChild(backBtn);
   header.appendChild(title);

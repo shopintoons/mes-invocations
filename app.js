@@ -651,6 +651,40 @@ function show99NamesPage() {
   mainView.innerHTML = "";
   mainView.appendChild(container);
 }
+function showAboutPage() {
+  currentView = "autre";
+
+  const container = document.createElement("div");
+
+  const title = document.createElement("div");
+  title.className = "view-title";
+  title.textContent = "À propos / Mentions légales";
+  container.appendChild(title);
+
+  const p = document.createElement("div");
+  p.style.fontSize = "13px";
+  p.style.marginTop = "8px";
+  p.innerHTML = `
+    <b>Nom de l’application :</b> Mes Invocations<br>
+    <b>Créateur :</b> Nadir Thouant<br>
+    <b>Version :</b> 1.0<br><br>
+
+    <b>Usage :</b><br>
+    Application personnelle destinée à faciliter la lecture des invocations,
+    des horaires de prière et des versets du Coran.<br><br>
+
+    <b>Avertissement :</b><br>
+    Toujours vérifier les invocations et les traductions auprès de savants fiables
+    et de livres de référence reconnus.<br><br>
+
+    <b>Contact :</b><br>
+    (mets ici ton e-mail, site web, TikTok, etc.)
+  `;
+  container.appendChild(p);
+
+  mainView.innerHTML = "";
+  mainView.appendChild(container);
+}
 
 // ---- PWA service worker (désactivé pour éviter le vieux cache) ----
 /*
